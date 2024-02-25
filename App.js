@@ -17,8 +17,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Module1 from './moduleScreen/Module1';
 import ModulesContainer from './screens/ModulesContainer';
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+
+
 const  MyStack = () => {
+  const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator>
       <Stack.Screen name="Dashboard" options={{headerShown:false}} component={HomeScreen} />
@@ -86,6 +88,20 @@ const  BottomNav = () => {
 }
 
 
+const MyLoginStack = () => {
+  const Stack = createNativeStackNavigator();
+
+  return(
+  <Stack.Navigator>
+      <Stack.Screen name="Login" options={{headerShown:false}} component={Form} />
+      <Stack.Screen name="HomeLogin" options={{headerShown:false}} component={BottomNav} />
+  </Stack.Navigator>
+  )
+}
+
+
+
+
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   async function getData() {
@@ -107,7 +123,7 @@ export default function App() {
     {isLoggedIn ?  (
         <BottomNav />
       ) : (
-        <Form />
+          <MyLoginStack/>
       )
       }
    

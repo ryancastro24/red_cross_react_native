@@ -25,7 +25,7 @@ const Form = () => {
             Alert.alert('Logged In Successfull');
             AsyncStorage.setItem('token', res.data.data);
             AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
-            navigation.navigate('Home');
+            navigation.navigate('HomeLogin');
           
           }
           else{
