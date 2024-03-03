@@ -16,19 +16,11 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Module1 from './moduleScreen/Module1';
 import ModulesContainer from './screens/ModulesContainer';
+import EditProfile from './components/EditProfile';
 const Tab = createBottomTabNavigator();
 
 
-const  MyStack = () => {
-  const Stack = createNativeStackNavigator();
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Dashboard" options={{headerShown:false}} component={HomeScreen} />
-      <Stack.Screen name="ModulesContainer"  component={ModulesContainer} />
-     
-    </Stack.Navigator>
-  );
-}
+
 
 
 const  BottomNav = () => {
@@ -99,6 +91,19 @@ const MyLoginStack = () => {
   )
 }
 
+
+const  MyStack = () => {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Dashboard" options={{headerShown:false}} component={HomeScreen} />
+      <Stack.Screen name="ModulesContainer"  component={ModulesContainer} />
+      <Stack.Screen name="EditProfile"  component={EditProfile} />
+      
+     
+    </Stack.Navigator>
+  );
+}
 
 
 

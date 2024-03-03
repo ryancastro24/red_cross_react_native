@@ -10,7 +10,7 @@ const Module1 = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
          <View style={{gap:7}}>
         <MySubheader style={styles.subheader}>First Aid</MySubheader>
-        <MyImage/>
+        <MyImage imageSource={require(`../assets/first aid.jpg`)}/>
        
         <MyText style={styles.p}>Is an immediate help provided to a sick or injured person until professional medical help arrives or becomes available.</MyText>
         
@@ -27,7 +27,7 @@ const Module1 = () => {
                 <MyText>An emergency procedure that consists of recognizing respiratory or cardiac arrest or both and the proper application of CPR to maintain life until a victim recovers or advanced life support is available.</MyText>
             </View>
 
-            <MyImage/>
+            <MyImage imageSource={require(`../assets/Cardiac arrest1.png`)}/>
 
             <View style={{marginTop:25,gap:7}}>
                 <MySubheader>Objectives of First Aid</MySubheader>
@@ -114,28 +114,28 @@ const Module1 = () => {
 
 
                 <View style={{gap:5,alignItems:"center",marginBottom:20}}>
-                    <MyImage />
+                    <MyImage imageSource={require(`../assets/herpes.jpg`)}/>
                     <MyText>Herpes</MyText>
                 </View>
 
                 
                 <View style={{gap:5,alignItems:"center",marginBottom:20}}>
-                    <MyImage />
+                    <MyImage imageSource={require(`../assets/miningitis.jpg`)}/>
                     <MyText>Meningitis</MyText>
                 </View>
 
                 <View style={{gap:5,alignItems:"center",marginBottom:20}}>
-                    <MyImage />
+                    <MyImage imageSource={require(`../assets/tuberculosis.jpg`)} />
                     <MyText>Tuberculosis</MyText>
                 </View>
 
                 <View style={{gap:5,alignItems:"center",marginBottom:20}}>
-                    <MyImage />
+                    <MyImage imageSource={require(`../assets/hepatitis.jpg`)} />
                     <MyText>Hepatitis</MyText>
                 </View>
 
                 <View style={{gap:5,alignItems:"center",marginBottom:20}}>
-                    <MyImage />
+                    <MyImage imageSource={require(`../assets/hiv.jpg`)} />
                     <MyText>Human Immune Deficiency Virus</MyText>
                 </View>
 

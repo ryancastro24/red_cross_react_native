@@ -19,7 +19,7 @@ const Module2 = () => {
                     Scene Size-up
                 </MySubheader>
 
-                <MyImage />
+                <MyImage imageSource={require(`../assets/11.scene size up (injured ).jpg`)}/>
             </View>
 
 
@@ -64,7 +64,7 @@ const Module2 = () => {
                             Primary Assessment
                         </MySubheader>
 
-                        <MyImage />
+                        <MyImage imageSource={require(`../assets/12.Pulse rate.jpg`)} />
                  </View>
 
                  <View style={{marginTop:15}}>
@@ -138,8 +138,8 @@ const Module2 = () => {
                 <View style={{marginTop:15}}>
                     <Text style={{fontSize:20,fontWeight:"bold"}}>3. Airway </Text>
                     <Text style={{fontSize:16,fontStyle:"italic"}}>An open airway allows air to enter the lungs for the person to breathe. If the airway is blocked, the person cannot breathe.</Text>
-                    <MyImage/>
-                    <MyImage/>
+                    <MyImage imageSource={require(`../assets/13.calling nimber.jpg`)}/>
+                    <MyImage imageSource={require(`../assets/14.airway.png`)}/>
                  </View>
 
 
@@ -147,7 +147,7 @@ const Module2 = () => {
                 <View style={{marginTop:15}}>
                     <Text style={{fontSize:20,fontWeight:"bold"}}>4. Breathing </Text>
                     <Text style={{fontSize:16,fontStyle:"italic"}}>While maintaining an open airway, quickly check an unconscious person for breathing by doing the Look, Listen and Feel (LLF) technique for no more than 10 seconds.</Text>
-                    <MyImage/>
+                    <MyImage imageSource={require(`../assets/15.breathing.jpg`)}/>
                  </View>
 
 
@@ -162,7 +162,7 @@ const Module2 = () => {
                         <Text style={{fontSize:18,fontWeight:"bold"}}>- Bleeding</Text>
                         <MyText style={{fontSize:16}}>Quickly look for severe bleeding by looking over the person's body from head to toe for signals such as blood-soaked clothing or blood spurting out of a wound.</MyText>
                     </View>
-                    <MyImage/>
+                    <MyImage imageSource={require(`../assets/16 pulse.jpg`)}/>
 
                     <View style={{gap:4,marginTop:10}}>
                         <Text style={{fontSize:18,fontWeight:"bold"}}>- Shock</Text>
@@ -175,7 +175,7 @@ const Module2 = () => {
                     </View>
 
 
-                    <MyImage/>
+                    <MyImage imageSource={require(`../assets/17.bleeding.jpg`)}/>
                  </View>
 
 
@@ -191,18 +191,18 @@ const Module2 = () => {
             
             <View style={{gap:6,marginTop:15}}>
                 <MyText><Text style={{fontWeight:"bold"}}>Interviewing</Text> the person and bystanders</MyText>
-                <MyImage />
+                <MyImage imageSource={require(`../assets/18 .intervingjpg.jpg`)} />
             </View>
 
 
             <View style={{gap:6,marginTop:15}}>
                 <MyText>Checking the person from <Text style={{fontWeight:"bold"}}>Head to Toe</Text></MyText>
-                <MyImage />
+                <MyImage imageSource={require(`../assets/19.checking head to toe.jpg`)} />
             </View>
 
             <View style={{gap:6,marginTop:15}}>
                 <MyText>Checking for <Text style={{fontWeight:"bold"}}>Vital Signs</Text></MyText>
-                <MyImage />
+                <MyImage imageSource={require(`../assets/20.checking head to toe.jpg`)} />
             </View>
             
 

@@ -17,7 +17,7 @@ const Module5 = () => {
         <View style={{gap:8}}>
           <MyText>Bleeding is the loss of blood escaping from the circulatory system</MyText>
           <MyText>Bleeding that is severe enough to critically reduce blood volume is life threathening.This can cause tissues  to die from the lack oxygen. Life threathening bleeding can either external or internal. External  bleeding occurs when a blood vessel is opened from the outside such as through a tear in the skin</MyText>
-          <MyImage />
+          <MyImage imageSource={require(`../assets/1.bleeding.jpg`)} />
         </View>
 
 
@@ -59,7 +59,7 @@ const Module5 = () => {
       
         <View style={{gap:8 }}>
           <MyText>Shock is a condition in which the circulatory system fails to deliver enough oxygen-rich blood  to the body's tissues  and vital organs</MyText>
-          <MyImage />
+          <MyImage imageSource={require(`../assets/2.shock.jpg`)} />
         </View>
 
 

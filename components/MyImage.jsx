@@ -1,8 +1,15 @@
 
-import { View ,StyleSheet} from 'react-native'
-const MyImage = ({children}) => {
+import { View ,StyleSheet,Image} from 'react-native'
+const MyImage = ({imageSource}) => {
   return (
-    <View style={styles.image}>{children}</View>
+    <View  style={styles.image}>
+      <Image 
+      style={styles.imageContent}
+      source={imageSource}
+      resizeMode='cover'
+      />
+    
+    </View>
   )
 }
 
@@ -18,5 +25,11 @@ const styles = StyleSheet.create({
        borderRadius:5,
        backgroundColor:"#d9d9d9"
       
-    }
+    },
+    imageContent:{
+      width:"100%",
+      height:200,
+      borderRadius:5
+     
+   }
 })

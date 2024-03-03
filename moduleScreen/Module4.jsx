@@ -78,10 +78,10 @@ const Module4 = () => {
 
 
         <View style={{marginTop:15,gap:7}}>
-            <MyImage />
-            <MyImage />
-            <MyImage />
-            <MyImage />
+            <MyImage imageSource={require(`../assets/30.Back blows & Abdominal.jpg`)} />
+            <MyImage imageSource={require(`../assets/31..Back blows & Abdominal.jpg`)} />
+            <MyImage imageSource={require(`../assets/32.Back blows & Abdominal.jpg`)} />
+            <MyImage  imageSource={require(`../assets/33..Back blows & Abdominal.jpg`)}/>
         </View>
 
 
@@ -98,7 +98,7 @@ const Module4 = () => {
         <View style={{gap:8}}>
             <Text style={{fontSize:20,fontWeight:"bold"}}>Rescue Breathing</Text>
 
-            <MyImage />
+            <MyImage imageSource={require(`../assets/34. Rescua Breathing.jpg`)} />
 
             <MyText>
                 a technique of breathing air into  a person to supply him  or her with the oxygen needed to survive. Rescue breathing  is given to a victim who are not breathing or with inadequate breathing but still have pulse.
@@ -116,7 +116,7 @@ const Module4 = () => {
             <MyText>Asthma is an illness in which certain substances or conditions called "triggers" cause infamenation and constricition  of the airways, making breathing difficcult</MyText>
 
 
-            <MyImage /> 
+            <MyImage imageSource={require(`../assets/35.astma attack.jpg`)}/> 
       
         </View> 
 
@@ -171,7 +171,7 @@ const Module4 = () => {
 
             <MyText>Hyperventilation occurs when a person's breathing is faster and more shallow than normal. When this happen, the body does not take in enough oxygen to meet its  demands</MyText>
        
-            <MyImage />
+            <MyImage imageSource={require(`../assets/35.hyperventation.jpg`)} />
         </View>
 
             

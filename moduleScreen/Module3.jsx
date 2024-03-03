@@ -21,7 +21,7 @@ const Module3 = () => {
             </View>
 
 
-            <MyImage />
+            <MyImage imageSource={require(`../assets/23.Cardiac arrest chain survival.jpg`)} />
 
 
 
@@ -38,7 +38,7 @@ const Module3 = () => {
 
 
 
-            <MyImage />
+            <MyImage imageSource={require(`../assets/24.Heart Attack.jpg`)} />
 
             
 
@@ -48,7 +48,7 @@ const Module3 = () => {
             </View>
 
 
-            <MyImage />
+            <MyImage imageSource={require(`../assets/25.heart-attack-symptoms-in-men-and-women.jpg`)} />
 
             
 
@@ -68,7 +68,7 @@ const Module3 = () => {
                     </View>
                     
                 <View style={{paddingHorizontal:10}}>
-                     <MyImage />
+                     <MyImage  imageSource={require(`../assets/26.CPR.jpg`)}/>
                 </View>
                 <View style={{gap:7,marginTop:15,padding:10}}>
                     <Text style={{fontSize:18,fontWeight:"bold"}}>What to look for:</Text>
@@ -117,7 +117,7 @@ const Module3 = () => {
 
                 <MyText>Occurs when the heart stops contracting and no blood circulates through the blood vessels and vital organs are deprived of oxygen.</MyText>
 
-                <MyImage />
+                <MyImage imageSource={require(`../assets/27.Cardiac pulmonary resuscitation.jpg`)} />
 
 
                       
@@ -132,7 +132,7 @@ const Module3 = () => {
         <Text style={{marginTop:15,fontSize:20,fontWeight:'bold'}} >Cardio-Pulmonary Resuscitation</Text>
         <MyText>a combination of chest compressions and rescue breaths. When the heart is not beating, chest compressions are needed to circulate blood containing oxygen.</MyText>
 
-        <MyImage />
+        <MyImage imageSource={require(`../assets/28.Cardiac pulmonary resuscitation.jpg`)} />
 
 
 
