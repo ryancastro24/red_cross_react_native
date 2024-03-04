@@ -38,6 +38,7 @@ const  BottomNav = () => {
 
       <Tab.Screen name="Home" component={MyStack}
         options={{
+          headerShown:false,
           title:"Dashboard",
           tabBarLabel: 'Dashboard',
           tabBarActiveTintColor:"white",

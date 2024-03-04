@@ -7,18 +7,18 @@ const EditProfile = () => {
 
   const navigation = useNavigation();
 
-  // const handleLogout = async () => {
-  //   try {
-  //     // Clear user session data
-  //     await AsyncStorage.removeItem('token');
-  //     await AsyncStorage.removeItem('isLoggedIn');
-  //     Alert.alert('Logged Out Successfully');
-  //     // Navigate to login screen
-  //     navigation.navigate('LoginPage');
-  //   } catch (error) {
-  //     console.error('Error logging out:', error);
-  //   }
-  // };
+  const handleLogout = async () => {
+    try {
+      // Clear user session data
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('isLoggedIn');
+      Alert.alert('Logged Out Successfully');
+      // Navigate to login screen
+      navigation.navigate('LoginPage');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
   const route = useRoute();
   const { userData } = route.params || {};
@@ -42,7 +42,7 @@ const EditProfile = () => {
             </TouchableOpacity>
 
 
-            <TouchableOpacity  style={styles.logoutBtn}>
+            <TouchableOpacity onPress={() => handleLogout()}  style={styles.logoutBtn}>
                 <Text style={{fontSize:18,fontWeight:"bold",color:"white"}}>LOGOUT</Text>
             </TouchableOpacity>
 
