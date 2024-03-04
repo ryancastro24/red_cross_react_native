@@ -21,16 +21,21 @@ const Form = () => {
     
         axios.post('https://red-cross-api-final.onrender.com/login-user', userData).then(res => {
           console.log(res.data);
-          if (res.data.status == 'ok') {
+          if(res.data.status === "ok") {
             Alert.alert('Logged In Successfull');
             AsyncStorage.setItem('token', res.data.data);
             AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
             navigation.navigate('HomeLogin');
           
           }
-          else{
-            console.error("fetch error")
+          if(res.data.data === "User doesn't exists!!"){
+            Alert.alert(`User doesn't exists!!`);
           }
+          if(res.data.error === "incorrect password"){
+            Alert.alert(`incorrect password`);
+          }
+        
+
         });
       }
 

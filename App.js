@@ -81,22 +81,13 @@ const  BottomNav = () => {
 }
 
 
-const MyLoginStack = () => {
-  const Stack = createNativeStackNavigator();
-
-  return(
-  <Stack.Navigator>
-      <Stack.Screen name="Login" options={{headerShown:false}} component={Form} />
-      <Stack.Screen name="HomeLogin" options={{headerShown:false}} component={BottomNav} />
-  </Stack.Navigator>
-  )
-}
 
 
 const  MyStack = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator>
+      
       <Stack.Screen name="Dashboard" options={{headerShown:false}} component={HomeScreen} />
       <Stack.Screen name="ModulesContainer"  component={ModulesContainer} />
       <Stack.Screen name="EditProfile"  component={EditProfile} />
@@ -109,29 +100,15 @@ const  MyStack = () => {
 
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  async function getData() {
-    const data = await AsyncStorage.getItem('isLoggedIn');
-    console.log(data, 'at app.jsx');
-    setIsLoggedIn(data);
-  
-  }
-
-  useEffect(() => {
-    getData();
-   
-  }, [isLoggedIn]);
+ 
 
 
   return (
-    <NavigationContainer>
+    <NavigationContainer> 
    
-    {isLoggedIn ?  (
-        <BottomNav />
-      ) : (
-          <MyLoginStack/>
-      )
-      }
+
+      <BottomNav/>
+
    
     </NavigationContainer>
   );
