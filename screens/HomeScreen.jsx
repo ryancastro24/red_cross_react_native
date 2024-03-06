@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 const HomeScreen = () => {
 
     const navigation = useNavigation();
-  //   const [userData,setUserData] = useState('')
+    const [userData,setUserData] = useState('')
 
     const sendData = (id,title) => {
       const data = {id:id,title:title}
@@ -19,24 +19,24 @@ const HomeScreen = () => {
 
 
 
-  //   async function getData() {
-  //     const token = await AsyncStorage.getItem('token');
-  //     console.log(token);
-  //     axios
-  //       .post('https://red-cross-api-final.onrender.com/userdata', {token: token})
-  //       .then(res => {
-  //         console.log(res.data);
-  //         setUserData(res.data.data);
-  //       });
-  //   }
+    async function getData() {
+      const token = await AsyncStorage.getItem('token');
+      console.log(token);
+      axios
+        .post('https://red-cross-api-final.onrender.com/userdata', {token: token})
+        .then(res => {
+          console.log(res.data);
+          setUserData(res.data.data);
+        });
+    }
     
     
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     getData();
+  useFocusEffect(
+    React.useCallback(() => {
+      getData();
      
-  //   },[]),
-  // );
+    },[]),
+  );
 
 
 
@@ -67,15 +67,15 @@ const HomeScreen = () => {
                     <View style={{flexDirection:"row",alignItems:"center", gap:8}}>
                           <View style={styles.imageProfile}></View>
                           <View>
-                            <Text style={{fontSize:25,fontWeight:"bold",color:"white"}}>Albert Einstien</Text>
-                            <Text style={{fontSize:14,fontWeight:"thin",color:"white"}}>albert@test.com</Text>
+                            <Text style={{fontSize:25,fontWeight:"bold",color:"white"}}>{userData.name}</Text>
+                            <Text style={{fontSize:14,fontWeight:"thin",color:"white"}}>{userData.email}</Text>
                           </View>
                     
                     </View>
 
                       
                       <View>
-                          <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+                          <TouchableOpacity onPress={() => navigation.navigate('EditProfile',{userData})}>
                             <MaterialCommunityIcons name="account-edit" color={"white"} size={35} />
                           </TouchableOpacity>
                       </View>
@@ -86,8 +86,8 @@ const HomeScreen = () => {
 
 
             <View style={{paddingLeft:8}}>
-                <Text style={{fontSize:18,fontWeight:"thin",color:"white"}}><Text style={{fontWeight:"bold"}}>Address:</Text>London City</Text>
-                <Text style={{fontSize:18,fontWeight:"thin",color:"white"}}><Text style={{fontWeight:"bold"}}>Contact #: </Text>998-91231-292</Text>
+                <Text style={{fontSize:18,fontWeight:"thin",color:"white"}}><Text style={{fontWeight:"bold"}}>Address:</Text>{userData.address}</Text>
+                <Text style={{fontSize:18,fontWeight:"thin",color:"white"}}><Text style={{fontWeight:"bold"}}>Contact #: </Text>{userData.contact}</Text>
               </View>
 
 

@@ -1,26 +1,26 @@
 import React from 'react'
 import { View,Text,TouchableOpacity,StyleSheet,Alert} from 'react-native'
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation,useRoute,StackActions } from '@react-navigation/native'
 const EditProfile = () => {
 
 
   const navigation = useNavigation();
 
-  // const handleLogout = async () => {
-  //   try {
-  //     // Clear user session data
-  //     await AsyncStorage.removeItem('token');
-  //     await AsyncStorage.removeItem('isLoggedIn');
-  //     Alert.alert('Logged Out Successfully');
-  //     // Navigate to login screen
-  //     navigation.dispatch(StackActions.replace('LoginPage'));
+  const handleLogout = async () => {
+    try {
+      // Clear user session data
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('isLoggedIn');
+      Alert.alert('Logged Out Successfully');
+      // Navigate to login screen
+      navigation.dispatch(StackActions.replace('LoginPage'));
 
     
-  //   } catch (error) {
-  //     console.error('Error logging out:', error);
-  //   }
-  // };
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
   const route = useRoute();
   const { userData } = route.params || {};
@@ -29,11 +29,11 @@ const EditProfile = () => {
           <View style={{width:180,height:180,borderRadius:100,backgroundColor:"#d9d9d9"}}></View>
     
           <View style={{marginTop:20,alignItems:"center"}}>
-              <Text style={{fontSize:30,fontWeight:"bold"}}>Albert Einstien</Text>
+              <Text style={{fontSize:30,fontWeight:"bold"}}>{userData.name}</Text>
               <View style={{marginTop:15,gap:10}}>
-                  <Text style={{textAlign:"center",fontSize:16}}><Text style={{fontWeight:"bold"}}>Email:</Text> albert@test.com</Text>
-                  <Text style={{textAlign:"center",fontSize:16}}><Text style={{fontWeight:"bold"}}>Address:</Text> London City</Text>
-                  <Text style={{textAlign:"center",fontSize:16}}><Text style={{fontWeight:"bold"}}>Contact #:</Text> 998-212-2134</Text>
+                  <Text style={{textAlign:"center",fontSize:16}}><Text style={{fontWeight:"bold"}}>Email:</Text> {userData.email}</Text>
+                  <Text style={{textAlign:"center",fontSize:16}}><Text style={{fontWeight:"bold"}}>Address:</Text> {userData.address}</Text>
+                  <Text style={{textAlign:"center",fontSize:16}}><Text style={{fontWeight:"bold"}}>Contact #:</Text> {userData.contact}</Text>
               </View>
           </View>
 
@@ -44,7 +44,7 @@ const EditProfile = () => {
             </TouchableOpacity>
 
 
-            <TouchableOpacity style={styles.logoutBtn}>
+            <TouchableOpacity onPress={() => handleLogout()} style={styles.logoutBtn}>
                 <Text style={{fontSize:18,fontWeight:"bold",color:"white"}}>LOGOUT</Text>
             </TouchableOpacity>
 
