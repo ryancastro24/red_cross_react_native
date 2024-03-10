@@ -11,6 +11,7 @@ const HomeScreen = () => {
 
     const navigation = useNavigation();
     const [userData,setUserData] = useState('')
+    const [searchData,setSearchData] = useState('');
 
     const sendData = (id,title) => {
       const data = {id:id,title:title}
@@ -39,6 +40,10 @@ const HomeScreen = () => {
   );
 
 
+
+
+    const finalModules = moduleHeaderData.filter(val => val.title.startsWith(searchData));
+  
 
 
 
@@ -93,6 +98,7 @@ const HomeScreen = () => {
 
               <View>
                 <TextInput 
+                 onChange={e => setSearchData(e.nativeEvent.text)}
                 placeholder='Search Module...'
                 style={styles.searchInput}/>
               </View>
@@ -104,7 +110,7 @@ const HomeScreen = () => {
         <View style={{flex:1,marginTop:10}}>
           <FlatList
           showsVerticalScrollIndicator={false} 
-           data={moduleHeaderData}
+           data={finalModules}
             renderItem={({item,index}) => <Item index={index} {...item} />}
             keyExtractor={item => item.id}
            />
