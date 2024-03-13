@@ -61,7 +61,7 @@ const HomeScreen = () => {
 
     );
  
-  return (
+  return (  
     <View style={styles.body}>
 
           <View style={styles.userDetailsContainer}>
