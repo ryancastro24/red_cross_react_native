@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
-import { View, Text,StyleSheet,TouchableOpacity,Alert,FlatList,TextInput} from 'react-native'
+import { View,Image, Text,StyleSheet,TouchableOpacity,Alert,FlatList,TextInput} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation ,useFocusEffect} from '@react-navigation/native';
 import { moduleHeaderData } from '../libs/moduleHeaderData';
-import axios from 'axios';
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import { Searchbar,ActivityIndicator } from 'react-native-paper';
+
+
+
 
 
 const HomeScreen = () => {
 
+
     const navigation = useNavigation();
     const [userData,setUserData] = useState('')
     const [searchData,setSearchData] = useState('');
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState(null);
 
     const sendData = (id,title) => {
       const data = {id:id,title:title}
@@ -21,23 +26,66 @@ const HomeScreen = () => {
 
 
     async function getData() {
-      const token = await AsyncStorage.getItem('token');
-      console.log(token);
-      axios
-        .post('https://red-cross-api-final.onrender.com/userdata', {token: token})
-        .then(res => {
-          console.log(res.data);
-          setUserData(res.data.data);
+      try {
+        const token = await AsyncStorage.getItem('token');
+    
+        const response = await fetch('https://red-cross-api-final.onrender.com/userdata', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ token: token })
         });
+    
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+    
+        const data = await response.json();
+        console.log(data);
+        setUserData(data.data);
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setLoading(false);
+      }
     }
     
-    
+
+
+
   useFocusEffect(
     React.useCallback(() => {
       getData();
      
     },[]),
+  
   );
+
+
+  if (loading) {
+    return (
+      <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+      <ActivityIndicator size="large" animating={true} color="#FF0000" />
+      </View>
+    );
+  }
+  
+  if (error) {
+    return (
+      <View>
+        <Text>Error: {error.message}</Text>
+      </View>
+    );
+  }
+
+  
+
+
+  const firstname = userData.name.split(' ');
+
+
+
 
 
 
@@ -47,15 +95,15 @@ const HomeScreen = () => {
 
 
 
-    const Item = ({title,topics,index,id}) => (
-     <TouchableOpacity onPress={() => sendData(id,title)} style={styles.item}>      
-    
-        <Text style={styles.title}>{id === 14 || id === 15 ? "" : index + 1 + "."} {title}</Text>
-          {topics.map((topic,i) => (
-              <View key={topic.id}>
-                  <Text style={styles.topicsStyle}>{i + 1}. {topic.topicTitle}</Text>
-              </View>
-          ))}
+    const Item = ({title,topics,index,id,coverImage}) => (
+     <TouchableOpacity onPress={() => sendData(id,title)} style={{...styles.item,...styles.shadowProp, marginLeft: index === 0 ? 0 : 20}}>      
+          
+      <View>
+        <Image style={{width:"100%",height:150,borderRadius:10}} resizeMode='cover' source={ require(`../assets/first aid.jpg`) }/>
+      </View>
+
+
+        <Text style={styles.title}> {title}</Text>
       
       </TouchableOpacity>
 
@@ -67,48 +115,42 @@ const HomeScreen = () => {
           <View style={styles.userDetailsContainer}>
 
 
-            <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+        <View style={{flexDirection:"row", justifyContent:"space-between"}}>
 
-                    <View style={{flexDirection:"row",alignItems:"center", gap:8}}>
-                          <View style={styles.imageProfile}></View>
-                          <View>
-                            <Text style={{fontSize:25,fontWeight:"bold",color:"white"}}>{userData.name}</Text>
-                            <Text style={{fontSize:14,fontWeight:"thin",color:"white"}}>{userData.email}</Text>
-                          </View>
-                    
-                    </View>
+          <Text  style={{fontSize:35,fontWeight:"700",}}> <Text style={{fontSize:35,fontWeight:"100",fontStyle:"italic"}}>Hello, </Text>{firstname[0]}</Text>
+  
+          <View style={styles.imageProfile}></View>
 
-                      
-                      <View>
-                          <TouchableOpacity onPress={() => navigation.navigate('EditProfile',{userData})}>
-                            <MaterialCommunityIcons name="account-edit" color={"white"} size={35} />
-                          </TouchableOpacity>
-                      </View>
+        </View>
 
 
-              </View>
+        <View>
+        <Searchbar
+            placeholder="Search"
+            onChangeText={setSearchData}
+            value={searchData}
+          />
+        </View>
 
 
 
-            <View style={{paddingLeft:8}}>
-                <Text style={{fontSize:18,fontWeight:"thin",color:"white"}}><Text style={{fontWeight:"bold"}}>Address:</Text>{userData.address}</Text>
-                <Text style={{fontSize:18,fontWeight:"thin",color:"white"}}><Text style={{fontWeight:"bold"}}>Contact #: </Text>{userData.contact}</Text>
-              </View>
+
+          </View> 
 
 
-              <View>
-                <TextInput 
-                 onChange={e => setSearchData(e.nativeEvent.text)}
-                placeholder='Search Module...'
-                style={styles.searchInput}/>
-              </View>
 
+      <View style={styles.currentModuleContainer}>
+        <Text style={{fontSize:20,fontWeight:"300"}} >Last Module Access</Text>
 
-          </View>
+        <View style={styles.currentReadModule}>
 
+        </View>
+          
+      </View>
 
         <View style={{flex:1,marginTop:10}}>
           <FlatList
+          horizontal={true}
           showsVerticalScrollIndicator={false} 
            data={finalModules}
             renderItem={({item,index}) => <Item index={index} {...item} />}
@@ -132,28 +174,34 @@ const styles = StyleSheet.create({
       flex:1,
       alignItems:"center",
       padding:15,
+
     },
     userDetailsContainer:{
       width: '100%', // Set width to full width of the screen
       height:200,
-      backgroundColor:"#DE0505",
       borderRadius:6,
-      padding:20,
-      justifyContent:"space-between"
+      padding:10,
+      justifyContent:"space-evenly"
     }, 
     item: {
-      padding: 10,
-      borderWidth:0.5, // Set border width
-      borderColor: 'black', // Set border color
-      borderStyle: 'solid', // Set border style
-      marginVertical: 8,
-      borderRadius:3,
-      width:"100%",
+      backgroundColor: 'white',
+      borderRadius: 8,
+      padding:10,
+      width: 250,
+      marginVertical: 10,
       
+    },
+    shadowProp: {
+      shadowColor: '#171717',
+      shadowOffset: {width: -2, height: 4},
+      shadowOpacity: 1,
+      shadowRadius: 3,
     },
     title: {
       fontSize:20,
-      fontWeight:"bold"
+      fontWeight:"bold",
+      paddingHorizontal:10,
+      marginTop:10,
     },
 
     topicsStyle:{
@@ -168,10 +216,23 @@ const styles = StyleSheet.create({
     searchInput:{
       width:"100%",
       height:45,
-      borderRadius:4,
+      borderRadius:100,
       backgroundColor:"white",
       paddingHorizontal:10,
       fontSize:18
+    },
+    currentModuleContainer:{
+      width:"100%",
+      height:200,
+      gap:10,
+    },
+    currentReadModule:{
+      backgroundColor: '#FF2525',
+      borderRadius: 8,
+      padding:10,
+      width:"100%",
+      marginVertical: 10,
+      height:150
     }
    
   

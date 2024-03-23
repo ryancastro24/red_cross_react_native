@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet,Image,Alert } from 'react-native';
 import { useState } from 'react';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 const Form = () => {
@@ -19,24 +18,31 @@ const Form = () => {
           password,
         };
     
-        axios.post('https://red-cross-api-final.onrender.com/login-user', userData).then(res => {
-          console.log(res.data);
-          if(res.data.status === "ok") {
-            Alert.alert('Logged In Successfull');
-            AsyncStorage.setItem('token', res.data.data);
-            AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
-            navigation.navigate('HomeLogin');
-          
-          }
-          if(res.data.data === "User doesn't exists!!"){
-            Alert.alert(`User doesn't exists!!`);
-          }
-          if(res.data.error === "incorrect password"){
-            Alert.alert(`incorrect password`);
-          }
-        
+        fetch('https://red-cross-api-final.onrender.com/login-user', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              if (data.status === "ok") {
+                Alert.alert('Logged In Successfully');
+                AsyncStorage.setItem('token', data.data);
+                AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
+                navigation.navigate('HomeLogin');
+              } else if (data.data === "User doesn't exists!!") {
+                Alert.alert(`User doesn't exist!!`);
+              } else if (data.error === "incorrect password") {
+                Alert.alert(`Incorrect password`);
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
 
-        });
       }
 
 

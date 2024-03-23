@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {ActivityIndicator } from 'react-native-paper';
+import { View } from 'react-native';
 import Form from './components/Form';
 import { useState , useEffect} from 'react';
 import {
@@ -112,17 +112,44 @@ const  MyStack = () => {
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
   async function getData() {
+    setLoading(true); // Set loading to true when fetching data
+  try {
     const data = await AsyncStorage.getItem('isLoggedIn');
     console.log(data, 'at app.jsx');
     setIsLoggedIn(data);
-  
+  } catch (error) {
+    setError(error); // Set error state if there's an error
+  } finally {
+    setLoading(false); // Set loading to false after fetching data, whether success or failure
+  }
   }
 
   useEffect(() => {
     getData();
    
-  }, [isLoggedIn]);
+  }, []);
+
+  
+  if (loading) {
+    return (
+      <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+      <ActivityIndicator size="large" animating={true} color="#FF0000" />
+      </View>
+    );
+  }
+  
+  if (error) {
+    return (
+      <View>
+        <Text>Error: {error.message}</Text>
+      </View>
+    );
+  }
 
 
   return (
