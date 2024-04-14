@@ -10,7 +10,6 @@ export default MyText
 
 
 const styles = StyleSheet.create({
-    
     p:{
         fontSize:18,
         lineHeight:25,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState, useCallback, useEffect} from 'react'
 import { View,Image, Text,StyleSheet,TouchableOpacity,Alert,FlatList,TextInput} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation ,useFocusEffect} from '@react-navigation/native';
@@ -6,23 +6,55 @@ import { moduleHeaderData } from '../libs/moduleHeaderData';
 import { Searchbar,ActivityIndicator } from 'react-native-paper';
 
 
-
-
-
 const HomeScreen = () => {
 
 
     const navigation = useNavigation();
+
+
     const [userData,setUserData] = useState('')
     const [searchData,setSearchData] = useState('');
-    const [loading, setLoading] = React.useState(true);
-    const [error, setError] = React.useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    const [lastModuleAcess,setLastModuleAccess] = useState(null);
+    const [click,setClick] = useState(false);//used as flag to trigger the useEffect
+
+
+
+
+    //this will trigger if i click a specific  module 
     const sendData = (id,title) => {
       const data = {id:id,title:title}
+      setClick(!click)//this will be used in the useEffect
+      const dataToStore = JSON.stringify({ id: id, title: title });
+
+      // Store the data in AsyncStorage
+       AsyncStorage.setItem("lastModuleAccess", dataToStore);
+
+
+      console.log("Data stored successfully");
       navigation.navigate('ModulesContainer', { data });
     };
 
+
+    const lastModuleAccessModule = (id,title) => {
+
+      const data = {id:id,title:title}
+      navigation.navigate('ModulesContainer', { data });
+
+    }
+
+
+
+    
+    const navigateProfile = () => {
+      navigation.navigate('EditProfile', { userData });
+    }
+
+
+
+    
 
 
     async function getData() {
@@ -42,6 +74,7 @@ const HomeScreen = () => {
         }
     
         const data = await response.json();
+
         console.log(data);
         setUserData(data.data);
       } catch (error) {
@@ -54,8 +87,45 @@ const HomeScreen = () => {
 
 
 
+   
+
+    const getLastModuleData = async () => {
+        try {
+            // Retrieve data from AsyncStorage
+            const lastModuleData = await AsyncStorage.getItem("lastModuleAccess");
+            
+            // Parse the retrieved JSON string
+            const finalLastModuleData = JSON.parse(lastModuleData);
+
+           const moduleData = moduleHeaderData.find(val => val.id === finalLastModuleData.id);
+
+
+            console.log(moduleData);
+            // Set the parsed data in your state
+            setLastModuleAccess(moduleData);
+
+        } catch (error) {
+            // Handle any errors that occur during the retrieval or parsing process
+            console.error("Error getting last module data:", error);
+        }
+    };
+
+
+
+   
+
+    useEffect(() => {
+
+        getLastModuleData();
+    
+     },[click]);
+
+
+
+
+
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       getData();
      
     },[]),
@@ -66,7 +136,7 @@ const HomeScreen = () => {
   if (loading) {
     return (
       <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-      <ActivityIndicator size="large" animating={true} color="#FF0000" />
+        <ActivityIndicator size="large" animating={true} color="#FF0000" />
       </View>
     );
   }
@@ -79,22 +149,15 @@ const HomeScreen = () => {
     );
   }
 
-  
+ 
+
 
 
   const firstname = userData.name.split(' ');
-
-
-
-
-
-
-
-    const finalModules = moduleHeaderData.filter(val => val.title.startsWith(searchData));
+  const finalModules = moduleHeaderData.filter(val => val.title.startsWith(searchData));
   
 
-
-
+//every box or container of the modules
     const Item = ({title,topics,index,id,coverImage}) => (
      <TouchableOpacity onPress={() => sendData(id,title)} style={{...styles.item,...styles.shadowProp, marginLeft: index === 0 ? 0 : 20}}>      
           
@@ -108,29 +171,34 @@ const HomeScreen = () => {
       </TouchableOpacity>
 
     );
+
+    
+
  
   return (  
+
+
     <View style={styles.body}>
 
           <View style={styles.userDetailsContainer}>
 
 
-        <View style={{flexDirection:"row", justifyContent:"space-between"}}>
+                <View style={{flexDirection:"row", justifyContent:"space-between"}}>
 
-          <Text  style={{fontSize:35,fontWeight:"700",}}> <Text style={{fontSize:35,fontWeight:"100",fontStyle:"italic"}}>Hello, </Text>{firstname[0]}</Text>
-  
-          <View style={styles.imageProfile}></View>
+                  <Text  style={{fontSize:35,fontWeight:"700",}}> <Text style={{fontSize:35,fontWeight:"100",fontStyle:"italic"}}>Hello, </Text>{firstname[0]}</Text>
+          
+                  <TouchableOpacity onPress={() => navigateProfile()} style={styles.imageProfile}></TouchableOpacity>
 
-        </View>
+                </View>
 
 
-        <View>
-        <Searchbar
-            placeholder="Search"
-            onChangeText={setSearchData}
-            value={searchData}
-          />
-        </View>
+                <View>
+                <Searchbar
+                    placeholder="Search"
+                    onChangeText={setSearchData}
+                    value={searchData}
+                  />
+                </View>
 
 
 
@@ -142,15 +210,26 @@ const HomeScreen = () => {
       <View style={styles.currentModuleContainer}>
         <Text style={{fontSize:20,fontWeight:"300"}} >Last Module Access</Text>
 
-        <View style={styles.currentReadModule}>
+        <TouchableOpacity onPress={() => lastModuleAccessModule(lastModuleAcess?.id, lastModuleAcess?.title)} style={styles.currentReadModule}>
 
-        </View>
+          <Text style={{fontSize:30,color:'white',fontWeight:"900"}}>{lastModuleAcess?.title}</Text>
+
+
+              <View>
+                    {lastModuleAcess?.topics.map(val => <Text style={{color:"white"}} key={val.id}>- {val.topicTitle}</Text>)}
+              </View>
+        </TouchableOpacity>
           
       </View>
 
+
+
+
+
         <View style={{flex:1,marginTop:10}}>
+
           <FlatList
-          horizontal={true}
+           horizontal={true}
           showsVerticalScrollIndicator={false} 
            data={finalModules}
             renderItem={({item,index}) => <Item index={index} {...item} />}
@@ -225,14 +304,17 @@ const styles = StyleSheet.create({
       width:"100%",
       height:200,
       gap:10,
+    
     },
     currentReadModule:{
       backgroundColor: '#FF2525',
       borderRadius: 8,
-      padding:10,
+      padding:15,
       width:"100%",
       marginVertical: 10,
-      height:150
+      height:150,
+      gap:10
+      
     }
    
   

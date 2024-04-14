@@ -1,5 +1,5 @@
 import React from 'react'
-import { View,Text,TouchableOpacity,StyleSheet,Alert} from 'react-native'
+import { View,Text,TouchableOpacity,StyleSheet,Alert,Platform} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation,useRoute,StackActions } from '@react-navigation/native'
 const EditProfile = () => {
@@ -13,17 +13,24 @@ const EditProfile = () => {
       await AsyncStorage.removeItem('token');
       await AsyncStorage.removeItem('isLoggedIn');
       Alert.alert('Logged Out Successfully');
-      // Navigate to login screen
+      
+      // Reset navigation stack to only have LoginPage
       navigation.dispatch(StackActions.replace('LoginPage'));
-
-    
+  
+      // On Android, exit the app
+      // if (Platform.OS === 'android') {
+      //   BackHandler.exitApp();
+      // }
     } catch (error) {
       console.error('Error logging out:', error);
     }
   };
 
   const route = useRoute();
+
+
   const { userData } = route.params || {};
+  
   return (
     <View style={{flex:1, alignItems:"center",padding:20}}>
           <View style={{width:180,height:180,borderRadius:100,backgroundColor:"#d9d9d9"}}></View>

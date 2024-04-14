@@ -30,9 +30,14 @@ const ModulesContainer = () => {
           });
         }
       }, [data]);
-      const id = parseInt(data.id)
+
+
+      const id = parseInt(data.id);
   return (
     <View style={{flex:1,padding:20,paddingBottom:10}}>
+
+      
+
         {id === 1 && <Module1/>}
         {id === 2 && <Module2/>}
         {id === 3 && <Module3/>}
@@ -49,6 +54,8 @@ const ModulesContainer = () => {
         {id === 14 && <RedCrossServices/>}
         {id === 15 && <FundamentalPrinciples/>}
      
+
+
     </View>
   )
 }

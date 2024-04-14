@@ -1,4 +1,4 @@
-import {ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native-paper';
 import { View } from 'react-native';
 import Form from './components/Form';
 import { useState , useEffect} from 'react';
@@ -7,34 +7,37 @@ import {
   useNavigation,
   DrawerActions,
 } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeScreen from './screens/HomeScreen';
 import CertificateScreen from './screens/CertificateScreen';
 import ContactScreen from './screens/ContactScreen';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Module1 from './moduleScreen/Module1';
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
 import ModulesContainer from './screens/ModulesContainer';
 import EditProfile from './components/EditProfile';
+
+
 const Tab = createBottomTabNavigator();
 
 
 
 
 
+
 const  BottomNav = () => {
+
   return (
     <Tab.Navigator screenOptions={{
       tabBarStyle:{
         backgroundColor:"#DE0505",
         height:70,
-
       },
-  
-      
     }}>
-
 
       <Tab.Screen name="Home" component={MyStack}
         options={{
@@ -111,8 +114,10 @@ const  MyStack = () => {
 
 
 export default function App() {
+
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
 
@@ -120,7 +125,6 @@ export default function App() {
     setLoading(true); // Set loading to true when fetching data
   try {
     const data = await AsyncStorage.getItem('isLoggedIn');
-    console.log(data, 'at app.jsx');
     setIsLoggedIn(data);
   } catch (error) {
     setError(error); // Set error state if there's an error
@@ -130,18 +134,24 @@ export default function App() {
   }
 
   useEffect(() => {
+
     getData();
-   
-  }, []);
 
   
+  },[]);
+
+  
+
   if (loading) {
     return (
       <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-      <ActivityIndicator size="large" animating={true} color="#FF0000" />
+        <ActivityIndicator size="large" animating={true} color="#FF0000" />
       </View>
     );
   }
+
+
+
   
   if (error) {
     return (
@@ -153,9 +163,10 @@ export default function App() {
 
 
   return (
+
     <NavigationContainer>
    
-    {isLoggedIn ?  (
+    { isLoggedIn ?  (
         <BottomNav />
       ) : (
           <MyLoginStack/>
@@ -164,6 +175,7 @@ export default function App() {
    
     </NavigationContainer>
   );
+    
 }
 
 

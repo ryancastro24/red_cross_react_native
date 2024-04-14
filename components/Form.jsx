@@ -2,19 +2,27 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet,Image,Alert } from 'react-native';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation  } from '@react-navigation/native';
+import { moduleHeaderData } from '../libs/moduleHeaderData';
+import { ActivityIndicator } from 'react-native-paper';
 const Form = () => {
 
     
+  // functions and declarations 
     const navigation = useNavigation();
+
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState("");
+    const [loading,setLoading] = useState(false);
 
 
-    function handleSubmit() {
+
+    const handleSubmit = () => {
+
+        setLoading(true);
         console.log(email, password);
         const userData = {
-          email: email,
+          email,
           password,
         };
     
@@ -33,10 +41,14 @@ const Form = () => {
                 AsyncStorage.setItem('token', data.data);
                 AsyncStorage.setItem('isLoggedIn', JSON.stringify(true));
                 navigation.navigate('HomeLogin');
+
+                setLoading(false);
               } else if (data.data === "User doesn't exists!!") {
                 Alert.alert(`User doesn't exist!!`);
+                setLoading(false);
               } else if (data.error === "incorrect password") {
                 Alert.alert(`Incorrect password`);
+                setLoading(false);
               }
             })
             .catch(error => {
@@ -45,18 +57,33 @@ const Form = () => {
 
       }
 
+   
+
+
+
+      // frontend 
 
   return (
-    <View style={styles.container}>
+
+    <View  style={styles.container}>
       <View style={styles.innerContainer}>
+        
         <View style={{justifyContent:"center", alignItems:"center",marginBottom:30}}>
             <Image style={styles.logo} alt='logo' source={require('../assets/logo.png')}/>
         </View>
+
+
         <TextInput  
         onChange={e => setEmail(e.nativeEvent.text)}
         placeholder='Enter Email' 
         require
-        style={styles.input} />
+        style={styles.input} 
+        />
+
+      
+ 
+
+      
 
         
         <TextInput 
@@ -65,18 +92,30 @@ const Form = () => {
         secureTextEntry={true}  
         placeholder='Enter Password' 
         require
-        style={styles.input} />
+        style={styles.input}
+       />
         
 
+
+     
         <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
-          <Text style={{ color: 'white',fontSize:18}}>LOGIN</Text>
-        </TouchableOpacity>
+            <Text style={{ color: 'white',fontSize:18}}>{loading ? <ActivityIndicator color='white'/> : "LOGIN"}</Text>
+        </TouchableOpacity> 
+
+
       </View>
     </View>
   );
-};
+
+
+
+
+  
+}; //emd of my component
 
 export default Form;
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -85,6 +124,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 10,
       },
+
       innerContainer:{
         width:300,
         flex:1,
@@ -95,7 +135,6 @@ const styles = StyleSheet.create({
       logo:{
         width:160,
         height:160
-
       },
   input: {
     height: 50,
